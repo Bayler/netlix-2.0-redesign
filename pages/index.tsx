@@ -1,10 +1,12 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
+import Modal from '../components/Modal'
 import Row from '../components/Row'
 import { Movie } from '../typings'
 import requests from '../utils/requests'
+import { useRecoilValue } from 'recoil'
+import { modalState, movieState } from '../atoms/modalAtom'
 
 interface Props {
   netflixOriginals: Movie[] //you can also do this [Movie]
@@ -29,6 +31,8 @@ export default function Home({
 
 } : Props) {
 
+  const showModal = useRecoilValue(modalState)
+  const movie = useRecoilValue(movieState)
   // console.log(netflixOriginals) - how to get the types
 
   return (
@@ -54,7 +58,7 @@ export default function Home({
         </section>
       </main>
 
-      {/* Modal */}
+      {showModal && <Modal/>}
 
     </div>
   )

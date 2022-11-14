@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { BellIcon, SearchIcon } from '@heroicons/react/solid'
-// import useAuth from '../hooks/useAuth'
+import useAuth from '../hooks/useAuth'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 // import BasicMenu from './BasicMenu'
