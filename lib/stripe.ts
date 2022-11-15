@@ -28,7 +28,7 @@ import {
     )
   
     await functionRef({
-      returnUrl: `${window.location.origin}/account`,
+      returnUrl: `${window.location.origin}/account`, //window.location.origin gets the current domain
     })
       .then(({ data }: any) => window.location.assign(data.url))
       .catch((error) => console.log(error.message))

@@ -3,7 +3,7 @@ import { BellIcon, SearchIcon } from '@heroicons/react/solid'
 import useAuth from '../hooks/useAuth'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-// import BasicMenu from './BasicMenu'
+import BasicMenu from './BasicMenu'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -35,7 +35,7 @@ function Header() {
           className="cursor-pointer object-contain"
         />
 
-        {/* <BasicMenu /> */}
+        <BasicMenu />
 
         <ul className="hidden space-x-4 md:flex">
           <li className="headerLink cursor-default font-semibold text-white hover:text-white">
@@ -54,7 +54,7 @@ function Header() {
         <Link href="/account">
           <Image
             src="https://rb.gy/g1pwyx"
-            alt=""
+            alt="account"
             width={30}
             height={30}
             className="cursor-pointer rounded"

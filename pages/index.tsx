@@ -11,6 +11,7 @@ import useAuth from '../hooks/useAuth'
 import Plans from '../components/Plans'
 import { getProducts, Product } from '@stripe/firestore-stripe-payments'
 import payments from '../lib/stripe'
+import useSubscription from '../hooks/useSubscription'
 
 interface Props {
   netflixOriginals: Movie[] //you can also do this [Movie]
@@ -40,8 +41,8 @@ export default function Home({
   const showModal = useRecoilValue(modalState)
   const movie = useRecoilValue(movieState)
   // console.log(netflixOriginals) - how to get the types
-  const { loading } = useAuth()
-  const subscription = false
+  const { loading, user } = useAuth()
+  const subscription = useSubscription(user)
 
   if (loading || subscription === null) return null
 
