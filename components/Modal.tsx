@@ -1,6 +1,6 @@
 import { CheckIcon, PlusIcon, ThumbUpIcon, VolumeOffIcon, VolumeUpIcon, XIcon } from '@heroicons/react/outline'
 import MuiModal from '@mui/material/Modal'
-import { deleteDoc, doc, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, DocumentData, onSnapshot, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { FaPlay } from 'react-icons/fa'
 import ReactPlayer from 'react-player/lazy'
@@ -19,6 +19,7 @@ function Modal() {
     const [muted, setMuted] = useState(false)
     const { user } = useAuth()
     const [addedToList, setAddedToList] = useState(false)
+    const [movies, setMovies] = useState<DocumentData[] | Movie[]>([])
     //useRecoilValue returns the value itself vile useRecoilState (similar to useState) returns a tuple
     const toastStyle = {
       background: 'white',
@@ -86,9 +87,29 @@ function Modal() {
         }
       }
       
+    // Find all the movies in the user's list
+    useEffect(() => {
+      if (user) {
+        return onSnapshot(
+          collection(db, 'customers', user.uid, 'myList'),
+          (snapshot) => setMovies(snapshot.docs)
+        )
+      }
+    }, [db, movie?.id])
+
+    // Check if the movie is already in the user's list
+    useEffect(
+      () =>
+        setAddedToList(
+          movies.findIndex((result) => result.data().id === movie?.id) !== -1
+        ),
+      [movies]
+    )  
     
     const handleClose = () => {
         setShowModal(false)
+        setMovie(null)
+        toast.dismiss()
     }
 
     return (
@@ -99,6 +120,7 @@ function Modal() {
             overflow-y-scroll rounded-md scrollbar-hide"
         >
             <>
+              <Toaster position='bottom-center' />
                 <button onClick={handleClose} className='modalButton absolute right-5 top-5 !z-40
                 h-9 w-9 border-none bg-[#181818] hover:bg-[#181818]'>
                     <XIcon className='h-6 w-6'/>
